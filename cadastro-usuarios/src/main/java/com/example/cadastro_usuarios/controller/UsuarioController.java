@@ -5,12 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.example.cadastro_usuarios.model.Usuario;
 import com.example.cadastro_usuarios.service.UsuarioService;
 
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
@@ -25,6 +28,31 @@ public class UsuarioController {
         model.addAttribute("usuarios", usuarioService.listarTodos());
         return "usuarios";
     }
+
+@GetMapping("/novo") 
+public String mostrarFormularioCadastro(Model model) { 
+    model.addAttribute("usuario", new Usuario()); 
+    return "formulario"; 
+ } 
+
+ @PostMapping("/salvar") 
+public String salvarUsuario(@ModelAttribute Usuario usuario) { 
+    usuarioService.salvar(usuario); 
+     return "redirect:/usuarios"; 
+ } 
+
+ @GetMapping("/editar/{id}") 
+public String editarUsuario(@PathVariable Long id, Model model) { 
+     Usuario usuario = usuarioService.buscarPorId(id); 
+    model.addAttribute("usuario", usuario); 
+    return "formulario"; 
+} 
+
+@GetMapping("/excluir/{id}") 
+public String excluirUsuario(@PathVariable Long id) { 
+    usuarioService.excluir(id);
+    return "redirect:/usuarios";
+}
     
 
 }

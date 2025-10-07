@@ -17,4 +17,16 @@ public class UsuarioService {
     public List<Usuario> listarTodos(){
         return usuarioRepository.findAll();
     }
+
+    public Usuario salvar(Usuario usuario) { 
+        return usuarioRepository.save(usuario); 
+    } 
+
+     public Usuario buscarPorId(Long id) { 
+        return usuarioRepository.findById(id).orElse(null); 
+     } 
+
+     public void excluir(Long id) { 
+        usuarioRepository.deleteById(id); 
+    } 
 }
